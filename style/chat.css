@@ -1,0 +1,152 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700,900");
+.chat {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.chat__item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  top: 0;
+  -webkit-animation: messageUp 300ms ease forwards;
+          animation: messageUp 300ms ease forwards;
+}
+.chat__item:not(:last-of-type) {
+  margin-bottom: 2rem;
+}
+.chat__item--agent {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+.chat__item--agent .chat__info {
+  text-align: right;
+}
+.chat__item--agent .chat__message {
+  background: rgba(56, 112, 196, 0.06);
+  color: #3870C4;
+  border-color: #3870C4;
+  margin-right: 0;
+  margin-left: auto;
+}
+.chat__avatar {
+  border-radius: 999px;
+  width: 35px;
+  height: 35px;
+  background: #CFD0D4;
+  margin: 0 15px 0 0;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0px 0px 0px 3px #FFFFFF;
+}
+.chat__content {
+  width: 80%;
+}
+.chat__info {
+  color: #57595F;
+  display: block;
+}
+.chat__message {
+  background: #FFFFFF;
+  border: 1px solid #CFD0D4;
+  padding: 8px;
+  border-radius: .2rem;
+  width: 100%;
+  position: relative;
+  margin-bottom: 8px;
+  max-width: 500px;
+}
+.chat__message-input {
+  height: 75px;
+}
+
+.chat__name-input {
+    height: 25px;
+  }
+
+  #carl:hover {
+    letter-spacing: 0.8em;
+    background-color: blue;
+  }
+  
+  #carl {
+    color: white;
+  }
+
+  #nikola:hover {
+    letter-spacing: 0.8em;
+    background-color: blue;
+  }
+  
+  #nikola {
+    color: white;
+  }
+  #isaac:hover {
+    letter-spacing: 0.8em;
+    background-color: blue;
+  }
+  
+  #isaac {
+    color: white;
+  }
+  #neil:hover {
+    letter-spacing: 0.8em;
+    background-color: blue;
+  }
+  
+  #neil {
+    color: white;
+  }
+
+  .chatRoomButtons {
+    height: 2em;
+    width: 24%;
+    padding: 1.5em auto;
+    margin: 1em auto;
+    background-color: rgb(24, 87, 140);
+   
+    border: none;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    transition: all 0.2s cubic-bezier(.4,0,.2,1);
+  }
+  
+@-webkit-keyframes messageUp {
+  0% {
+    top: 0px;
+  }
+  25% {
+    top: 15px;
+  }
+  50% {
+    top: -5px;
+  }
+  75% {
+    top: -5px;
+  }
+  100% {
+    top: 0;
+  }
+}
+
+@keyframes messageUp {
+  0% {
+    top: 0px;
+  }
+  25% {
+    top: 15px;
+  }
+  50% {
+    top: -5px;
+  }
+  75% {
+    top: -5px;
+  }
+  100% {
+    top: 0;
+  }
+}

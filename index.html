@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bluzelle - Example Chat Application for Heroku</title>
+  <link rel="stylesheet" type="text/css" href="style/chat.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<!-- start main div -->
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+
+        <!-- header of chat application -->
+        <div class="card-header">
+          <div class="card-title">
+            <img width="200px" ; src="https://bluzelle.com/assets/img/Bluzelle%20-%20Screen%20-%20Logo%20-%20Big%20-%20Blue.png" />
+            <br />
+            <strong>Example Chat Application</strong>
+            <br/>
+            <br/>
+            <strong>Pick a Chat Room: </strong>
+            <br/>
+            <button class="chatRoomButtons" id="carl">Carl</button>
+            <button class="chatRoomButtons" id="nikola">Nikola</button>
+            <button class="chatRoomButtons" id="isaac">Isaac</button>
+            <button class="chatRoomButtons" id="neil">Neil</button>
+          </div>
+        </div>
+        <!-- end header -->
+
+        <!-- body of chat application -->
+        <div class="card-body p-0">
+          <div class="d-block px-3 py-4 bg-light border">
+            <!-- message container where chat messages will be -->
+            <ul class="chat" id="chat">
+              <!-- initial message of chat application -->
+              <li class="chat__item chat__item--agent">
+                <div id="messageContainer" class="chat__content">
+                  <div id="messageItems" class="chat__message">
+                    <p>
+                      Welcome to the Bluzelle Example Chat! <br />
+                      <br />
+                      This chat is built using nodejs and simple html/css magic. <br />
+                      <br />
+                      Users are able to:
+                      <br />
+                      <ul>
+                        <li>create a unique name and message</li>
+                        <li>store messages in the bluzelle database</li>
+                        <li>deploy and attach the bluzelle addon to this applicaion on heroku</li>
+                        <li>enjoy REALTIME messaging (no polling) through the use of sockets</li>
+                      </ul>
+
+                    </p>
+                  </div>
+                  <small class="chat__info"><strong><span id="chatName">Chat Assistant</span></strong></small>
+                </div>
+              </li>
+              <!-- end initial message of chat application -->
+            </ul>
+            <!-- end message container -->
+          </div>
+
+          <!-- footer of chat application, where input will be placed -->
+          <div class="card-footer">
+            <div class="form-group">
+              <label><strong>Name:</strong></label>
+              <input id="name" type="text" class="d-block w-100 form-control mb-2 chat__name-input" placeholder="Enter your name">
+              <label><strong>Message:</strong></label>
+              <textarea id="message" class="d-block w-100 form-control mb-2 chat__message-input" placeholder="Enter your message"></textarea>
+              <div class="d-flex justify-content-end">
+                <button id="sendMessage" class="btn btn-primary chat__message-button">Send Message</button>
+              </div>
+            </div>
+          </div>
+          <!-- end footer of chat application -->
+
+        </div>
+        <!-- end body of chat application -->
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+<script>
+  //initialize socket.io
+  var socket = io();
+  //create a default value for no chatroom selected
+  var selectedChatRoom = "initial";
+
+  //chatroom selection, message history retrieval, and committing new messages
+  $(() => {
+    //chatroom selection
+    $("#carl").click(() => {
+      selectedChatRoom = "carl";
+      getMessages(selectedChatRoom);
+    })
+    $("#nikola").click(() => {
+      selectedChatRoom = "nikola";
+      getMessages(selectedChatRoom);
+    })
+    $("#isaac").click(() => {
+      selectedChatRoom = "isaac";
+      getMessages(selectedChatRoom);
+    })
+    $("#neil").click(() => {
+      selectedChatRoom = "neil";
+      getMessages(selectedChatRoom);
+    })
+    //submit messages
+    $("#sendMessage").click(() => {
+      sendMessage({keyChatRoom: selectedChatRoom, message: $("#name").val() + ':' + $("#message").val() });
+    })
+    //retrieve message history after updated with new submmission
+    getMessages(selectedChatRoom);
+  })
+
+  //event listener on addMessages
+  socket.on('message', addMessages)
+
+  //updates the UI by appending a message to the message container
+  function addMessages(message) {
+    if(message.message.toString() !== ""){
+      var messageSegments = message.message.toString().split(':');
+      $("#messageContainer").append(`<div class="chat__message"><p>${messageSegments[1]}</p></div><small class="chat__info"><strong><span id = "chatName"> ${messageSegments[0]} </span></strong></small>`);
+      scrollDown();
+    }
+  }
+
+  //retrieves messages.  Required some string parsing from values extracted from db->json format
+  function getMessages(chatroom) {
+    if(chatroom != "initial"){
+      $("#messageItems").remove();
+      $(".chat__message").remove();
+      $(".chat__info").remove();
+    }
+    
+    $.ajax({
+      url: location.protocol + '//' + location.host + '/messages/' + chatroom + '/',
+      type: 'PUT',
+      success: function (data) {
+
+        //parse json data and extract the value (in array format)
+        JSON.parse(data, (key, value) => {
+
+          //string formatting to remove array characters and split into individual string tokens
+          var stringNoBrackets = value.slice(1, -1);
+          var stringNoDoubleQuotes = stringNoBrackets.toString().replace(/['"]+/g, '');
+          var dataSegments = stringNoDoubleQuotes.toString().split(',');
+
+          //loop through to get chat history
+          for (var i = 0; i <= dataSegments.length; i++) {
+
+            //add each previous message then updated UI
+            addMessages({
+              message: dataSegments[i]
+            });
+
+          }
+        });
+
+      }
+    });
+  }
+
+  //posts the message to the messages endpoint
+  function sendMessage(message) {
+    $.post(location.protocol + '//' + location.host  + '/messages', message);
+  }
+
+  //after changes in the message container, scroll to the bottom to see latest message
+  function scrollDown() {
+    $('#chat').animate({ scrollTop: ($('#chat').prop("scrollHeight")) }, 360);
+  }
+
+</script>
+
+</html>
