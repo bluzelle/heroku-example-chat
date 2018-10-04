@@ -2,7 +2,7 @@
     "name": "Bluzelle on Heroku",
     "description": "Example chat app using Bluzelle.",
     "repository": "https://github.com/bluzelle/heroku-example-chat",
-    "logo": "https://bluzelle.com/assets/img/Bluzelle%20-%20Screen%20-%20Logo%20-%20Big%20-%20Blue.png",
+    "logo": "https://bluzelle.com/assets/img/Bluzelle%20-%20Screen%20-%20Symbol%20-%20Big%20-%20Blue%20cut.png",
     "keywords": ["bluzelle", "heroku", "node"],
     "image": "heroku/nodejs"
 }
