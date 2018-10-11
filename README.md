@@ -16,7 +16,6 @@ The Bluzelle Heroku Example Chat application is a simple nodejs project that uti
 1) Deploy the application by clicking this button:
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/bluzelle/heroku-example-chat)
 
-Follow the Heroku instructions for setting up your application.
 
 2) Login to Heroku using the Heroku CLI:
 ```sh
@@ -29,6 +28,15 @@ $ Heroku addons:create bluzelle:test -a APPLICATION_NAME
 ```
 
 4) If everything went smoothly and the add-on installed properly, you will find 3 Config Variables (In your Heroku Application Dashboard, under the settings tab, you should see Config Vars.  If you Click on "Reveal Vars", you will see 3 Config Variables that the Bluzelle Add-on had set, BLUZELLE_ADDRESS, BLUZELLE_PORT, and BLUZELLE_UUID)
+
+# Challenges
+There are a couple of challenges with this application architecture.
+
+1) Messages are appended to each value entry in the database.  Once the value entry hit the buffer limit (300 KB), then it will error out.  Solution: utilize different uuids
+
+2) Even though it's using socket.io, this is not "completely" real-time polling.  The sockets initializes via HTTPS then "promotes" to sockets.  Keep in mind that some browsers will not support this.
+
+3) 
 
 # Support Contact
 If you need help setting up the application to use our service, ask us at gitter: 
