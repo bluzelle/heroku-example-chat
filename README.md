@@ -36,7 +36,6 @@ There are a couple of challenges with this application architecture.
 
 2) Even though it's using socket.io, this is not "completely" real-time polling.  The sockets initializes via HTTPS then "promotes" to sockets.  Keep in mind that some browsers will not support this.
 
-3) 
 
 # Support Contact
 If you need help setting up the application to use our service, ask us at gitter: 
