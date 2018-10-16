@@ -36,9 +36,9 @@ var valuePerKey;
 //NOTE: daemonUrl, daemonPort, and chatuuid will only be assigned once the Heroku Bluzelle Add-on //
 // has been successfully attached to this deployed Heroku application.                           //
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
-var daemonUrl = process.env.BLUZELLE_ADDRESS||'ws://testnet.bluzelle.com';
-var daemonPort = process.env.BLUZELLE_PORT||'51010';
-var chatuuid = process.env.BLUZELLE_UUID||'examplechatblz';
+var daemonUrl = process.env.BLUZELLEDB_ADDRESS||'ws://testnet.bluzelle.com';
+var daemonPort = process.env.BLUZELLEDB_PORT||'51010';
+var chatuuid = process.env.BLUZELLEDB_UUID||'examplechatblz';
 
 //create a connection to bluzelle (currently testnet)
 bluzelle.connect(daemonUrl + ':'+ daemonPort,
