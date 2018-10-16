@@ -27,7 +27,7 @@ $ Heroku login
 $ Heroku addons:create bluzelle:test -a APPLICATION_NAME
 ```
 
-4) If everything went smoothly and the add-on installed properly, you will find 3 Config Variables (In your Heroku Application Dashboard, under the settings tab, you should see Config Vars.  If you Click on "Reveal Vars", you will see 3 Config Variables that the Bluzelle Add-on had set, BLUZELLE_ADDRESS, BLUZELLE_PORT, and BLUZELLE_UUID)
+4) If everything went smoothly and the add-on installed properly, you will find 3 Config Variables (In your Heroku Application Dashboard, under the settings tab, you should see Config Vars.  If you Click on "Reveal Vars", you will see 3 Config Variables that the Bluzelle Add-on had set, BLUZELLEDB_ADDRESS, BLUZELLEDB_PORT, and BLUZELLEDB_UUID)
 
 # Challenges
 There are a couple of challenges with this application architecture.
