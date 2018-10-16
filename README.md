@@ -24,7 +24,7 @@ $ Heroku login
 3) Once you've logged into Heroku with the Heroku CLI, you can now install the add-on to your Heroku Application (where APPLICATION_NAME is the name of your Heroku Application)
 
 ```sh
-$ Heroku addons:create bluzelle:test -a APPLICATION_NAME
+$ Heroku addons:create bluzelledb:test -a APPLICATION_NAME
 ```
 
 4) If everything went smoothly and the add-on installed properly, you will find 3 Config Variables (In your Heroku Application Dashboard, under the settings tab, you should see Config Vars.  If you Click on "Reveal Vars", you will see 3 Config Variables that the Bluzelle Add-on had set, BLUZELLEDB_ADDRESS, BLUZELLEDB_PORT, and BLUZELLEDB_UUID)
