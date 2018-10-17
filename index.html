@@ -145,7 +145,7 @@
     
     $.ajax({
       url: location.protocol + '//' + location.host + '/messages/' + chatroom + '/',
-      type: 'PUT',
+      type: 'GET',
       success: function (data) {
 
         //parse json data and extract the value (in array format)

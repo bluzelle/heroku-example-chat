@@ -45,7 +45,7 @@ bluzelle.connect(daemonUrl + ':'+ daemonPort,
   chatuuid);
 
 //endpoint for grabbing all messages depending on the cr (chatroom) selected
-app.put('/messages/:id', async (req, res) => {
+app.get('/messages/:id', async (req, res) => {
   //array for messages per chat room
   var valueSet = []; 
   
