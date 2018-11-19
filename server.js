@@ -7,7 +7,7 @@
 //including bodyParser to handle json requests
 var bodyParser = require('body-parser')
 //bluzelle api
-var bluzelle = require('bluzelle');
+var BluzelleClient = require('bluzelle');
 //for spawning express server
 var express = require('express');
 
@@ -40,9 +40,10 @@ var daemonUrl = process.env.BLUZELLEDB_ADDRESS||'ws://testnet.bluzelle.com';
 var daemonPort = process.env.BLUZELLEDB_PORT||'51010';
 var chatuuid = process.env.BLUZELLEDB_UUID||'examplechatblz';
 
+const bluzelle = new BluzelleClient(daemonUrl + ':' + daemonPort, chatuuid);
+
 //create a connection to bluzelle (currently testnet)
-bluzelle.connect(daemonUrl + ':'+ daemonPort,
-  chatuuid);
+await bluzelle.connect();
 
 //endpoint for grabbing all messages depending on the cr (chatroom) selected
 app.get('/messages/:id', async (req, res) => {
