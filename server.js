@@ -7,7 +7,7 @@
 //including bodyParser to handle json requests
 var bodyParser = require('body-parser')
 //bluzelle api
-var BluzelleClient = require('bluzelle');
+const { BluzelleClient } = require('bluzelle');
 //for spawning express server
 var express = require('express');
 
