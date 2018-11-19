@@ -43,7 +43,8 @@ var chatuuid = process.env.BLUZELLEDB_UUID||'examplechatblz';
 const bluzelle = new BluzelleClient(daemonUrl + ':' + daemonPort, chatuuid);
 
 //create a connection to bluzelle (currently testnet)
-await bluzelle.connect();
+bluzelle.connect()
+    .then(() => { console.log("connected successfully to bluzelle!") }, error => { console.log("there was an error making a connection to bluzelle") });
 
 //endpoint for grabbing all messages depending on the cr (chatroom) selected
 app.get('/messages/:id', async (req, res) => {
