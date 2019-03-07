@@ -45,7 +45,8 @@ var privatePem = process.env.BLUZELLE_PEMKEY||'MHQCAQEEIFNmJHEiGpgITlRwao/CDki4O
 const bluzelle = new BluzelleClient({
     entry: daemonUrl + ':' + daemonPort, 
     uuid: chatuuid,
-    private_pem: privatePem
+    private_pem: privatePem,
+    log: true
 });
 
 bluzelle.hasDB().then(
