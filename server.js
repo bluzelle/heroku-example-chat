@@ -49,6 +49,7 @@ const bluzelle = new BluzelleClient({
     log: true
 });
 
+//implements check if database exists
 bluzelle.hasDB().then(
   has => {
     if(!has)
