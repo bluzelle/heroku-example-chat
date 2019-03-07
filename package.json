@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bluzelle": "^0.3.275",
+    "bluzelle": "^0.4.417",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "socket.io": "^2.1.1"

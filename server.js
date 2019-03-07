@@ -39,12 +39,25 @@ var valuePerKey;
 var daemonUrl = process.env.BLUZELLEDB_ADDRESS||'ws://bernoulli.bluzelle.com';
 var daemonPort = process.env.BLUZELLEDB_PORT||'51010';
 var chatuuid = process.env.BLUZELLEDB_UUID||'examplechatblz';
-
-const bluzelle = new BluzelleClient(daemonUrl + ':' + daemonPort, chatuuid);
+var privatePem = process.env.BLUZELLE_PEMKEY||'MHQCAQEEIFNmJHEiGpgITlRwao/CDki4OS7BYeI7nyz+CM8NW3xToAcGBSuBBAAKoUQDQgAEndHOcS6bE1P9xjS/U+SM2a1GbQpPuH9sWNWtNYxZr0JcF+sCS2zsD+xlCcbrRXDZtfeDmgD9tHdWhcZKIy8ejQ==';
 
 //create a connection to bluzelle (currently testnet)
-bluzelle.connect()
-    .then(() => { console.log("connected successfully to bluzelle!") }, error => { console.log("there was an error making a connection to bluzelle") });
+const bluzelle = new BluzelleClient({
+    entry: daemonUrl + ':' + daemonPort, 
+    uuid: chatuuid,
+    private_pem: privatePem
+});
+
+bluzelle.hasDB().then(
+  has => {
+    if(!has)
+    {
+      bluzelle.createDB().then(() => { console.log('A new DB has been created!') }, error => { console.log('Error in creating a DB.') });
+    } 
+  }, 
+  error => { 
+    console.log('Error checking for existing DB.')
+  });
 
 //endpoint for grabbing all messages depending on the cr (chatroom) selected
 app.get('/messages/:id', async (req, res) => {
