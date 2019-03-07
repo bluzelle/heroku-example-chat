@@ -7,7 +7,7 @@
 //including bodyParser to handle json requests
 var bodyParser = require('body-parser')
 //bluzelle api
-const { BluzelleClient } = require('bluzelle');
+const { bluzelle } = require('bluzelle');
 //for spawning express server
 var express = require('express');
 
@@ -42,7 +42,7 @@ var chatuuid = process.env.BLUZELLEDB_UUID||'examplechatblz';
 var privatePem = process.env.BLUZELLE_PEMKEY||'MHQCAQEEIFNmJHEiGpgITlRwao/CDki4OS7BYeI7nyz+CM8NW3xToAcGBSuBBAAKoUQDQgAEndHOcS6bE1P9xjS/U+SM2a1GbQpPuH9sWNWtNYxZr0JcF+sCS2zsD+xlCcbrRXDZtfeDmgD9tHdWhcZKIy8ejQ==';
 
 //create a connection to bluzelle (currently testnet)
-const bluzelle = BluzelleClient({
+const api = bluzelle({
     entry: daemonUrl + ':' + daemonPort, 
     uuid: chatuuid,
     private_pem: privatePem,
@@ -50,11 +50,11 @@ const bluzelle = BluzelleClient({
 });
 
 //implements check if database exists
-bluzelle.hasDB().then(
+api.hasDB().then(
   has => {
     if(!has)
     {
-      bluzelle.createDB().then(() => { console.log('A new DB has been created!') }, error => { console.log('Error in creating a DB.') });
+      api.createDB().then(() => { console.log('A new DB has been created!') }, error => { console.log('Error in creating a DB.') });
     } 
   }, 
   error => { 
@@ -67,13 +67,13 @@ app.get('/messages/:id', async (req, res) => {
   var valueSet = []; 
   
   //retrieves all chatrooms available for the specified uuid (from the connection)
-  let keysChatRoom = await bluzelle.keys();
+  let keysChatRoom = await api.keys();
 
   //loops through each chatrooms and stores its message history in an array
   for(var i = 0; i < keysChatRoom.length; i++){
     //only store the message history for the selected chatroom
     if(keysChatRoom[i].toString() == req.params.id){
-      valuePerKey = await bluzelle.read(keysChatRoom[i]);
+      valuePerKey = await api.read(keysChatRoom[i]);
       valueSet[0] = valuePerKey;
     }
   }
@@ -96,7 +96,7 @@ app.post('/messages', async (req, res) => {
     var keyName = req.body.keyChatRoom;
 
     //check if the chatroom exists in the uuid namespace
-    const hasMyKey = await bluzelle.has(keyName);
+    const hasMyKey = await api.has(keyName);
 
     //check if chatroom exists, alter its existing message history in the database, otherwise, add a new message history
     //return internal server error if operations fail
@@ -104,7 +104,7 @@ app.post('/messages', async (req, res) => {
       if(hasMyKey){
 
         //read current message history in the chatroom
-        let currentMessage = await bluzelle.read(keyName);
+        let currentMessage = await api.read(keyName);
 
         //parse the JSON response and place the message history into temporary array (in order)
         JSON.parse(currentMessage, (key, value) => {
@@ -119,14 +119,14 @@ app.post('/messages', async (req, res) => {
         //convert message array to json string
         message = JSON.stringify(chatHistoryPerUser);
         //update message value in db
-        await bluzelle.update(keyName, message);
+        await api.update(keyName, message);
       }else{
         //place new message input to json object
         chatHistoryPerUser.push(message.toString());
         //convert message array to string
         message = JSON.stringify(chatHistoryPerUser)
         //create message value in db
-        await bluzelle.create(keyName, message);
+        await api.create(keyName, message);
       }
     }
     catch(error){
