@@ -42,7 +42,7 @@ var chatuuid = process.env.BLUZELLEDB_UUID||'examplechatblz';
 var privatePem = process.env.BLUZELLE_PEMKEY||'MHQCAQEEIFNmJHEiGpgITlRwao/CDki4OS7BYeI7nyz+CM8NW3xToAcGBSuBBAAKoUQDQgAEndHOcS6bE1P9xjS/U+SM2a1GbQpPuH9sWNWtNYxZr0JcF+sCS2zsD+xlCcbrRXDZtfeDmgD9tHdWhcZKIy8ejQ==';
 
 //create a connection to bluzelle (currently testnet)
-const bluzelle = new BluzelleClient({
+const bluzelle = BluzelleClient({
     entry: daemonUrl + ':' + daemonPort, 
     uuid: chatuuid,
     private_pem: privatePem,
