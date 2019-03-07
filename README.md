@@ -29,6 +29,24 @@ $ Heroku addons:create bluzelledb:test -a APPLICATION_NAME
 
 4) If everything went smoothly and the add-on installed properly, you will find 3 Config Variables (In your Heroku Application Dashboard, under the settings tab, you should see Config Vars.  If you Click on "Reveal Vars", you will see 3 Config Variables that the Bluzelle Add-on had set, BLUZELLEDB_ADDRESS, BLUZELLEDB_PORT, and BLUZELLEDB_UUID)
 
+# **UPDATE FOR >=0.4 bluzelle-js library**
+With the introduction of Permission keys, you need to include your PEM key in the code.  To generate your .pem file, please run the following command:
+
+```sh
+$ openssl ecparam -name secp256k1 -genkey -noout -out my_private_key.pem
+```
+where my_private_key.pem is the name of your Pemkey file.  The contents will look something like this:
+
+```sh
+-----BEGIN EC PRIVATE KEY-----
+MHQCAQEEIFNmJHEiGpgITlRwao/CDki4OS7BYeI7nyz+CM8NW3xToAcGBSuBBAAK
+oUQDQgAEndHOcS6bE1P9xjS/U+SM2a1GbQpPuH9sWNWtNYxZr0JcF+sCS2zsD+xl
+CcbrRXDZtfeDmgD9tHdWhcZKIy8ejQ==
+-----END EC PRIVATE KEY-----
+```
+
+You will need to include the key (between -----BEGIN EC PRIVATE KEY----- and -----END EC PRIVATE KEY-----) in your Heroku Cofig Variables.  The config variable should be called BLUZELLEDB_PEMKEY with the value of your key.
+
 # Challenges
 There are a couple of challenges with this application architecture.
 
